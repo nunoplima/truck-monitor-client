@@ -1,0 +1,47 @@
+.formContainer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 900px;
+    height: 64px;
+    background-color: #fff;
+    margin: 10px;
+    -webkit-box-shadow: -2px 4px 11px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: -2px 4px 11px -4px rgba(0,0,0,0.75);
+    box-shadow: -2px 4px 11px -4px rgba(0,0,0,0.75);
+}
+
+form {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+select {
+    min-width: 250px;
+    padding: 10px;
+    line-height: 1;
+    border: thin solid #ddd;
+    height: 44px;
+    background: url("../assets/images/icn-arrow-down.png") no-repeat right #fff;
+    -webkit-appearance: none;
+    background-position-x: 224px;
+    background-size: 14px;
+    outline: none;
+}
+
+input:hover {
+    background-color: #571f38;
+    color:#fff
+}
+
+input {
+    height: 44px;
+    width: 100px;
+    background-color: #b54b71;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+}
