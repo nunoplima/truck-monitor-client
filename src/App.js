@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
+import GoogleMapContainer from "./components/GoogleMap";
 import { getTripsHelper } from "./util/tripsHelper";
 import { getPlacesHelper } from "./util/placesHelper";
 
-class App extends React.Component {
+class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +19,11 @@ class App extends React.Component {
 
     render() {
         console.log(this.state.trips);
-        return <div className="App">live</div>;
+        return (
+            <div className="App">
+                <GoogleMapContainer />
+            </div>
+        );
     }
 }
 

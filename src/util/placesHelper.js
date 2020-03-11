@@ -8,7 +8,7 @@ const getPlacesHelper = async (coord, radius, type) => {
     const locationQuery = `location=${lat},${lng}`;
     const radiusQuery = `radius=${radius}`;
     const typeQuery = `type=${type}`;
-    const key = `key=${process.env.REACT_APP_PLACES_KEY}`;
+    const key = `key=${process.env.REACT_APP_GOOGLE_KEY}`;
     const rawResponse = await fetch(`${cors}${url}${locationQuery}&${radiusQuery}&${typeQuery}&${key}`);
     const response = await rawResponse.json();
     console.log(response);
