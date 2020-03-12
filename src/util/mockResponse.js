@@ -1,4 +1,4 @@
-const placesResponse = {
+const mockResponse = {
     "html_attributions": [],
     "results": [{
             "geometry": {
@@ -104,3 +104,5 @@ const placesResponse = {
     ],
     "status": "OK"
 };
+
+module.exports = mockResponse;

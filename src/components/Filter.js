@@ -8,12 +8,13 @@ const Filter = ({ trips, onSubmit }) => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        if (!truckPlate.length || !type.length || !radius.length) {
-            // TODO: convert to modal
-            alert("All fields are required. \nPlease fill them all before submiting.");
-        } else {
-            onSubmit(truckPlate, type, radius);
-        }
+        // if (!truckPlate.length || !type.length || !radius.length) {
+        //     // TODO: convert to modal
+        //     alert("All fields are required. \nPlease fill them all before submiting.");
+        // } else {
+        //     onSubmit(truckPlate, type, radius);
+        // }
+        onSubmit(truckPlate, "lodging", "1000");
     };
 
     return (
