@@ -7,7 +7,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            trips: {}
+            trips: {},
         };
     }
 
@@ -19,9 +19,11 @@ class App extends Component {
 
     render() {
         console.log(this.state.trips);
+        const { trips } = this.state;
+
         return (
             <div className="App">
-                <GoogleMapContainer />
+                <GoogleMapContainer trips={trips} />
             </div>
         );
     }
