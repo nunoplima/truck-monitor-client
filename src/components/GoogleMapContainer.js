@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import Loading from "./Loading";
 import Filter from "./Filter";
-import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
+import { Map, GoogleApiWrapper } from "google-maps-react";
+import MarkerContainer from "./MarkerContainer";
 import dotenv from "dotenv";
 import truckImage from "../assets/images/icn-current-location.png";
 import pathImage from "../assets/images/icn-path.png";
@@ -11,6 +13,8 @@ import gasStationImage from "../assets/images/icn-gas-station.png";
 
 dotenv.config();
 
+// TODO: convert to func comp
+// TODO: abstract or not the Marker comp
 class GoogleMapContainer extends Component {
     handleMapReady = (mapProps, map) => {
         map.setOptions({
@@ -22,7 +26,7 @@ class GoogleMapContainer extends Component {
     renderTruckLastPosition = () => {
         const { lat, lng } = this.props;
         return (
-            <Marker
+            <MarkerContainer
                 position={{ lat, lng }}
                 icon={{
                     url: truckImage,
@@ -38,9 +42,10 @@ class GoogleMapContainer extends Component {
         return path.map(({ lat, lng }, idx) => {
             const isFirstLocation = idx === firstLocationIdx;
             return (
-                <Marker 
+                <MarkerContainer
                     key={idx}
                     position={{ lat, lng }}
+                    clickable={false}
                     icon={{
                         url: isFirstLocation ? firstLocationImage : pathImage,
                         scaledSize: isFirstLocation
@@ -60,17 +65,20 @@ class GoogleMapContainer extends Component {
         else if (typeOfPOI === "lodging") icnImage = hotelImage;
         else icnImage = restaurantImage;
 
-        return places.map(({ lat, lng }, idx) => (
-            <Marker
+        return places.map(({ lat, lng, distance, duration }, idx) => (
+            <MarkerContainer
                 key={idx}
                 position={{ lat, lng }}
                 icon={{
                     url: icnImage,
                     scaledSize: new this.props.google.maps.Size(35, 35)
                 }}
+                distance={distance}
+                duration={duration}
             />
         ));
     };
+
 
     render() {
         const { trips, selectedTruck, path, lat, lng, places, onSubmit } = this.props;
@@ -101,12 +109,12 @@ class GoogleMapContainer extends Component {
                 
                 {places.length && this.renderPOI()}
                 
-                
             </Map>
         );
     }
 }
 
 export default GoogleApiWrapper({
-    apiKey: process.env.REACT_APP_GOOGLE_KEY
+    apiKey: process.env.REACT_APP_GOOGLE_KEY,
+    LoadingContainer: Loading
 })(GoogleMapContainer);

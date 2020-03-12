@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import GoogleMapContainer from "./components/GoogleMapContainer";
-import { getTripsHelper } from "./util/tripsHelper";
-import { getPlacesHelper } from "./util/placesHelper";
-import mockResponse from "./util/mockResponse";
+import { getTrips } from "./util/tripsHelper";
+import { getPlaces, getDistances } from "./util/placesHelper";
+import { mockPlacesResponse, mockDistanceResponse } from "./util/mockResponse";
 
 class App extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class App extends Component {
     }
 
     async componentDidMount() {
-        const { trips } = await getTripsHelper();
+        const { trips } = await getTrips();
         // get the most recent coordinates from the first truck in the array
         const { lat, lng } = trips[0][1][0]; 
         this.setState({ trips, lat, lng });
@@ -31,13 +31,20 @@ class App extends Component {
 
         // get path of selected truck (trip minus current location)
         const path = currentTrip[1].slice(1);
+        
         // get most recent coordinates of selected truck
         const { lat, lng } = currentTrip[1][0];
+        
         // get nearby points of interest
-        // const { results } = await getPlacesHelper({ lat, lng }, typeOfPOI, radius);
-        const { results } = mockResponse;
-        const places = results.map(({ geometry }) => geometry.location);
+        const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
+        // const rawPlacesArr = mockPlacesResponse.results;
+        const placesArr = rawPlacesArr.map(({ geometry }) => geometry.location);
 
+        // get distances mapped to each respective place
+        const distancesArr = await getDistances({ lat, lng }, placesArr);
+        // const distancesArr = mockDistanceResponse.rows[0].elements;
+        const places = placesArr.map((place, idx) => ({ ...place, distance: distancesArr[idx].distance.text, duration: distancesArr[idx].duration.text }))
+        
         this.setState({ selectedTruck, typeOfPOI, path, lat, lng, places });
     }; 
 

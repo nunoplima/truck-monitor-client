@@ -14,7 +14,6 @@ const Filter = ({ trips, onSubmit }) => {
         } else {
             onSubmit(truckPlate, type, radius);
         }
-        onSubmit(truckPlate, type, radius);
     };
 
     return (
