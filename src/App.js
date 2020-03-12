@@ -10,9 +10,11 @@ class App extends Component {
         this.state = {
             trips: [],
             selectedTruck: "",
+            typeOfPOI: "", 
             path: [],
             lat: "",
             lng: "",
+            places: [],
         };
     }
 
@@ -23,25 +25,25 @@ class App extends Component {
         this.setState({ trips, lat, lng });
     }
     
-    
-    handleOnSubmit = async (truckPlate, type, radius) => {
+    handleOnSubmit = async (selectedTruck, typeOfPOI, radius) => {
         const { trips } = this.state;
-        const currentTrip = trips.find(trip => trip[0] === truckPlate);
-        
+        const currentTrip = trips.find(trip => trip[0] === selectedTruck);
+
         // get path of selected truck (trip minus current location)
         const path = currentTrip[1].slice(1);
         // get most recent coordinates of selected truck
         const { lat, lng } = currentTrip[1][0];
         // get nearby points of interest
-        // const { places } = await getPlacesHelper({ lat, lng }, type, radius);
-        const places = mockResponse;
-        console.log(places);
-        this.setState({ selectedTruck: truckPlate, path, lat, lng });
-    };  
+        // const { results } = await getPlacesHelper({ lat, lng }, typeOfPOI, radius);
+        const { results } = mockResponse;
+        const places = results.map(({ geometry }) => geometry.location);
+
+        this.setState({ selectedTruck, typeOfPOI, path, lat, lng, places });
+    }; 
 
     render() {
         console.log(this.state);
-        const { trips, selectedTruck, path, lat, lng } = this.state;
+        const { trips, selectedTruck, typeOfPOI, path, lat, lng, places } = this.state;
 
         return (
             <div className="App">
@@ -49,9 +51,11 @@ class App extends Component {
                     <GoogleMapContainer
                         trips={trips}
                         selectedTruck={selectedTruck}
+                        typeOfPOI={typeOfPOI}
                         path={path}
                         lat={lat}
                         lng={lng}
+                        places={places}
                         onSubmit={this.handleOnSubmit}
                     />
                 )}
