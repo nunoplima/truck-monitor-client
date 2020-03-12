@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 import truckImage from "../assets/images/icn-current-location.png";
 import pathImage from "../assets/images/icn-path.png";
 import firstLocationImage from "../assets/images/icn-first-location.png";
+import restaurantImage from "../assets/images/icn-restaurant.png";
+import hotelImage from "../assets/images/icn-hotel.png";
+import gasStationImage from "../assets/images/icn-gas-station.png";
 
 dotenv.config();
 
@@ -18,7 +21,15 @@ class GoogleMapContainer extends Component {
 
     renderTruckLastPosition = () => {
         const { lat, lng } = this.props;
-        return <Marker position={{ lat, lng }} icon={{url: truckImage, scaledSize: new this.props.google.maps.Size(35,35)}}  />
+        return (
+            <Marker
+                position={{ lat, lng }}
+                icon={{
+                    url: truckImage,
+                    scaledSize: new this.props.google.maps.Size(35, 35)
+                }}
+            />
+        );
     };
 
     renderPath = () => {
@@ -42,11 +53,27 @@ class GoogleMapContainer extends Component {
     };
 
     renderPOI = () => {
+        const { places, typeOfPOI } = this.props;
+        // get correct icon given the type of POI
+        let icnImage;
+        if (typeOfPOI === "gas_station") icnImage = gasStationImage;
+        else if (typeOfPOI === "lodging") icnImage = hotelImage;
+        else icnImage = restaurantImage;
 
+        return places.map(({ lat, lng }, idx) => (
+            <Marker
+                key={idx}
+                position={{ lat, lng }}
+                icon={{
+                    url: icnImage,
+                    scaledSize: new this.props.google.maps.Size(35, 35)
+                }}
+            />
+        ));
     };
 
     render() {
-        const { trips, selectedTruck, path, lat, lng, onSubmit } = this.props;
+        const { trips, selectedTruck, path, lat, lng, places, onSubmit } = this.props;
         return (
             <Map
                 google={this.props.google}
@@ -71,7 +98,8 @@ class GoogleMapContainer extends Component {
                 {selectedTruck.length && this.renderTruckLastPosition()}
                 
                 {path.length && this.renderPath()}
-
+                
+                {places.length && this.renderPOI()}
                 
                 
             </Map>
