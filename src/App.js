@@ -1,13 +1,16 @@
 import React, { Component } from "react";
-import GoogleMapContainer from "./components/GoogleMap";
+import GoogleMapContainer from "./components/GoogleMapContainer";
 import { getTripsHelper } from "./util/tripsHelper";
 import { getPlacesHelper } from "./util/placesHelper";
+import mockResponse from "./util/mockResponse";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             trips: [],
+            selectedTruck: "",
+            path: [],
             lat: "",
             lng: "",
         };
@@ -23,19 +26,35 @@ class App extends Component {
     
     handleOnSubmit = async (truckPlate, type, radius) => {
         const { trips } = this.state;
-        // get most recent coordinates of specific truck
-        const { lat, lng } = trips.find(trip => trip[0] === truckPlate)[1][0];
+        const currentTrip = trips.find(trip => trip[0] === truckPlate);
+        
+        // get path of selected truck (trip minus current location)
+        const path = currentTrip[1].slice(1);
+        // get most recent coordinates of selected truck
+        const { lat, lng } = currentTrip[1][0];
+        // get nearby points of interest
         // const { places } = await getPlacesHelper({ lat, lng }, type, radius);
-        this.setState({ lat, lng });
+        const places = mockResponse;
+        console.log(places);
+        this.setState({ selectedTruck: truckPlate, path, lat, lng });
     };  
 
     render() {
         console.log(this.state);
-        const { trips, lat, lng } = this.state;
+        const { trips, selectedTruck, path, lat, lng } = this.state;
 
         return (
             <div className="App">
-                {trips && <GoogleMapContainer trips={trips} lat={lat} lng={lng} onSubmit={this.handleOnSubmit} />}
+                {trips && (
+                    <GoogleMapContainer
+                        trips={trips}
+                        selectedTruck={selectedTruck}
+                        path={path}
+                        lat={lat}
+                        lng={lng}
+                        onSubmit={this.handleOnSubmit}
+                    />
+                )}
             </div>
         );
     }
