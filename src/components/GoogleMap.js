@@ -5,15 +5,28 @@ import dotenv from "dotenv";
 dotenv.config();
 
 class GoogleMapContainer extends Component {
+    
+    handleMapReady = (mapProps, map) => {
+        map.setOptions({
+          draggableCursor: "default",
+          draggingCursor: "pointer"
+        });
+    };
+
     render() {
+        const { trips } = this.props;
         return (
             <Map
                 google={this.props.google}
+                onReady={this.handleMapReady}
+                disableDefaultUI
+                disableDoubleClickZoom
+                gestureHandling={"none"}
                 zoom={8}
-                style={{ width: "100vw", height: "100vh", cursor: "none" }}
+                style={{ width: "100vw", height: "100vh" }}
                 initialCenter={{ lat: 47.444, lng: -122.176 }}
             >
-                <Filter />
+                <Filter trips={trips}/>
             </Map>
         );
     }
