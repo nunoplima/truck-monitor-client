@@ -1,4 +1,4 @@
-const getTripsHelper = async () => {
+const getTrips = async () => {
     const options = {
         headers: {
             "Content-type": "application/json"
@@ -9,4 +9,4 @@ const getTripsHelper = async () => {
     return response;
 };
 
-export { getTripsHelper };
+export { getTrips };
