@@ -1,0 +1,14 @@
+@keyframes fade-in {
+    0% {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+img {
+    animation: fade-in .7s;
+    width: 35px;
+    height: 35px;
+}
