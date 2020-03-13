@@ -11,12 +11,11 @@ import firstLocationImage from "../../assets/images/icn-first-location.png";
 
 dotenv.config();
 
-// TODO: convert to func comp
 class GoogleMapContainer extends Component {
     handleMapReady = (mapProps, map) => {
         map.setOptions({
             draggableCursor: "default",
-            draggingCursor: "pointer"
+            draggingCursor: "pointer",
         });
     };
 

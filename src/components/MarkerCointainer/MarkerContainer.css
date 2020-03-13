@@ -8,7 +8,7 @@
 }
 
 img {
-    animation: fade-in .6s ease-in-out;
+    animation: fade-in .4s ease-in;
     width: 35px;
     height: 35px;
 }
