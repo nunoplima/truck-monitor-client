@@ -28,6 +28,7 @@ class GoogleMapContainer extends Component {
         return (
             <MarkerContainer
                 position={{ lat, lng }}
+                clickable={false}
                 icon={{
                     url: truckImage,
                     scaledSize: new this.props.google.maps.Size(35, 35)
@@ -58,7 +59,7 @@ class GoogleMapContainer extends Component {
     };
 
     renderPOI = () => {
-        const { places, typeOfPOI } = this.props;
+        const { places, typeOfPOI, onMarkerSelect } = this.props;
         // get correct icon given the type of POI
         let icnImage;
         if (typeOfPOI === "gas_station") icnImage = gasStationImage;
@@ -75,10 +76,10 @@ class GoogleMapContainer extends Component {
                 }}
                 distance={distance}
                 duration={duration}
+                onMarkerSelect={onMarkerSelect}
             />
         ));
     };
-
 
     render() {
         const { trips, selectedTruck, path, lat, lng, places, onSubmit } = this.props;

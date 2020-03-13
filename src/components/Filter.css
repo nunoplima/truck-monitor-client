@@ -25,6 +25,7 @@ select {
     outline: none;
     margin: 5px;
     padding: 10px;
+    cursor: pointer;
 }
 
 input:hover {

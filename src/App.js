@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import GoogleMapContainer from "./components/GoogleMapContainer";
+import DetailsModal from "./components/DetailsModal";
 import { getTrips } from "./util/tripsHelper";
 import { getPlaces, getDistances } from "./util/placesHelper";
 import { mockPlacesResponse, mockDistanceResponse } from "./util/mockResponse";
@@ -15,6 +16,8 @@ class App extends Component {
             lat: "",
             lng: "",
             places: [],
+            marker: {},
+            isModalVisible: false,
         };
     }
 
@@ -45,12 +48,22 @@ class App extends Component {
         // const distancesArr = mockDistanceResponse.rows[0].elements;
         const places = placesArr.map((place, idx) => ({ ...place, distance: distancesArr[idx].distance.text, duration: distancesArr[idx].duration.text }))
         
-        this.setState({ selectedTruck, typeOfPOI, path, lat, lng, places });
+        this.setState({ selectedTruck, typeOfPOI, path, lat, lng, places, isModalVisible: false });
     }; 
 
+    handleOnMarkerSelect = marker => {
+        this.setState({ marker, isModalVisible: true });
+    };
+
+    // handle modal visibility
+    handleModalClose = () => {
+        this.setState({
+            isModalVisible: false,
+        });
+    };
+
     render() {
-        console.log(this.state);
-        const { trips, selectedTruck, typeOfPOI, path, lat, lng, places } = this.state;
+        const { trips, selectedTruck, typeOfPOI, path, lat, lng, places, marker, isModalVisible } = this.state;
 
         return (
             <div className="App">
@@ -64,6 +77,16 @@ class App extends Component {
                         lng={lng}
                         places={places}
                         onSubmit={this.handleOnSubmit}
+                        onMarkerSelect={this.handleOnMarkerSelect}
+                    />
+                )}
+
+                {isModalVisible && (
+                    <DetailsModal
+                        onModalClose={this.handleModalClose}
+                        marker={marker}
+                        selectedTruck={selectedTruck}
+                        typeOfPOI={typeOfPOI}
                     />
                 )}
             </div>
