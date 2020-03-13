@@ -12,7 +12,8 @@
 
 * {
     font-family: "VWAG The Sans";
-    font-size: 18px;
+    font-size: 20px;
+    color: #3b3b3b;
 }
 
 html, body, #root, .App {

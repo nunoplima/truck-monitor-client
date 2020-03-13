@@ -27,7 +27,7 @@ class GoogleMapContainer extends Component {
                 clickable={false}
                 icon={{
                     url: truckImage,
-                    scaledSize: new this.props.google.maps.Size(35, 35)
+                    scaledSize: new this.props.google.maps.Size(40, 40)
                 }}
             />
         );
@@ -46,8 +46,8 @@ class GoogleMapContainer extends Component {
                     icon={{
                         url: isFirstLocation ? firstLocationImage : pathImage,
                         scaledSize: isFirstLocation
-                            ? new this.props.google.maps.Size(17, 17)
-                            : new this.props.google.maps.Size(15, 15)
+                            ? new this.props.google.maps.Size(18, 18)
+                            : new this.props.google.maps.Size(16, 16)
                     }}
                 />
             );
@@ -75,7 +75,7 @@ class GoogleMapContainer extends Component {
                     position={{ lat, lng }}
                     icon={{
                         url: isSelected ? imageUrlByTypeOfPOI[typeOfPOI].selected : imageUrlByTypeOfPOI[typeOfPOI].notSelected,
-                        scaledSize: new this.props.google.maps.Size(35, 35)
+                        scaledSize: new this.props.google.maps.Size(40, 40)
                     }}
                     distance={distance}
                     duration={duration}
@@ -87,6 +87,7 @@ class GoogleMapContainer extends Component {
 
     render() {
         const { trips, selectedTruck, path, lat, lng, places, onSubmit } = this.props;
+
         return (
             <>
                 <Filter trips={trips} onSubmit={onSubmit} />
@@ -96,12 +97,15 @@ class GoogleMapContainer extends Component {
                     onReady={this.handleMapReady}
                     disableDefaultUI
                     disableDoubleClickZoom
-                    gestureHandling={"none"}
+                    gestureHandling={window.innerWidth <= 550 ? "greedy" : "none"}
                     zoom={14}
+                    minZoom={13}
                     zoomControl
                     style={{ width: "100vw", height: "100vh" }}
                     initialCenter={{ lat, lng }}
-                    center={{ lat, lng }}>
+                    center={{ lat, lng }}
+                    backgroundColor={"#ddd"}
+                    scaleControl>
 
                     {/* <Marker
                         position={{lat: 38.736413, lng: -9.206345}} 
