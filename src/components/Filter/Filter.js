@@ -10,7 +10,7 @@ const Filter = ({ trips, onSubmit }) => {
         e.preventDefault();
         if (!truckPlate.length || !type.length || !radius.length) {
             // TODO: convert to modal
-            alert("All fields are required. \nPlease fill them all before submiting.");
+            alert("All fields are required. \nPlease fill them all before submitting.");
         } else {
             onSubmit(truckPlate, type, radius);
         }
