@@ -118,6 +118,7 @@ class App extends Component {
                     <DetailsModal
                         onModalClose={this.handleModalClose}
                         marker={marker}
+                        selectedTruck={selectedTruck}
                         typeOfPOI={typeOfPOI}
                     />
                 )}

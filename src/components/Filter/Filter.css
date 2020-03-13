@@ -14,11 +14,11 @@ form {
     justify-content: center;
     align-items: center;
     min-width: 760px;
-    width: 60vw;
-    margin: 10px;
-    -webkit-box-shadow: -2px 4px 11px -4px rgba(0,0,0,0.75);
-    -moz-box-shadow: -2px 4px 11px -4px rgba(0,0,0,0.75);
-    box-shadow: -2px 4px 11px -4px rgba(0,0,0,0.75);
+    width: 50vw;
+    margin: 15px;
+    -webkit-box-shadow: 0px 4px 5px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 4px 5px -3px rgba(0,0,0,0.75);
+    box-shadow: 0px 4px 5px -3px rgba(0,0,0,0.75);
     background-color: #fff;
     padding: 5px;
     animation: fade-in .6s ease-in;
