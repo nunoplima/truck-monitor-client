@@ -5,9 +5,8 @@ import "./MarkerContainer.css";
 // React.memo shallowly compares its props and takes a cb as second parameter that takes prev and new props as args
 const MarkerContainer = React.memo(
     props => {
-        const handleOnMarkerSelect = (props, marker, e) => {
-            console.log(props, e);
-            props.onMarkerSelect(marker);
+        const handleOnMarkerSelect = (markerProps, marker, e) => {
+            props.onMarkerSelect(markerProps);
         };
 
         return <Marker {...props} onClick={handleOnMarkerSelect} />;

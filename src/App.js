@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import GoogleMapContainer from "./components/GoogleMapContainer";
-import DetailsModal from "./components/DetailsModal";
+import GoogleMapContainer from "./components/GoogleMapContainer/GoogleMapContainer";
+import DetailsModal from "./components/DetailsModal/DetailsModal";
 import { getTrips } from "./util/tripsHelper";
 import { getPlaces, getDistances } from "./util/placesHelper";
 import { mockPlacesResponse, mockDistanceResponse } from "./util/mockResponse";
+import Loading from "./components/Loading/Loading";
 
 class App extends Component {
     constructor(props) {
@@ -39,16 +40,18 @@ class App extends Component {
         const { lat, lng } = currentTrip[1][0];
         
         // get nearby points of interest
-        const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
-        // const rawPlacesArr = mockPlacesResponse.results;
+        // const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
+        const rawPlacesArr = mockPlacesResponse.results;
         const placesArr = rawPlacesArr.map(({ geometry }) => geometry.location);
 
         // get distances mapped to each respective place
-        const distancesArr = await getDistances({ lat, lng }, placesArr);
-        // const distancesArr = mockDistanceResponse.rows[0].elements;
+        // const distancesArr = await getDistances({ lat, lng }, placesArr);
+        const distancesArr = mockDistanceResponse.rows[0].elements;
+        
+        // map distancesArr to placesArr
         const places = placesArr.map((place, idx) => ({ ...place, distance: distancesArr[idx].distance.text, duration: distancesArr[idx].duration.text }))
         
-        this.setState({ selectedTruck, typeOfPOI, path, lat, lng, places, isModalVisible: false });
+        this.setState({ selectedTruck, typeOfPOI, path, lat, lng, places, isModalVisible: false, marker: {} });
     }; 
 
     handleOnMarkerSelect = marker => {
@@ -57,9 +60,7 @@ class App extends Component {
 
     // handle modal visibility
     handleModalClose = () => {
-        this.setState({
-            isModalVisible: false,
-        });
+        this.setState({ isModalVisible: false, marker: {} });
     };
 
     render() {
@@ -67,7 +68,7 @@ class App extends Component {
 
         return (
             <div className="App">
-                {trips && (
+                {trips.length ? (
                     <GoogleMapContainer
                         trips={trips}
                         selectedTruck={selectedTruck}
@@ -78,14 +79,16 @@ class App extends Component {
                         places={places}
                         onSubmit={this.handleOnSubmit}
                         onMarkerSelect={this.handleOnMarkerSelect}
+                        marker={marker}
                     />
+                ) : (
+                    <Loading />
                 )}
 
                 {isModalVisible && (
                     <DetailsModal
                         onModalClose={this.handleModalClose}
                         marker={marker}
-                        selectedTruck={selectedTruck}
                         typeOfPOI={typeOfPOI}
                     />
                 )}

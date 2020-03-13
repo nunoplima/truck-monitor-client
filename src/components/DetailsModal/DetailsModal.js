@@ -1,28 +1,22 @@
 import React from "react";
 import Modal from "react-modal";
+import { typeOfPOIObj } from "../../constants/constants";
 import "./DetailsModal.css";
 
 Modal.setAppElement("#root");
 
-const typeObj = {
-    "gas_station": "Gas Station",
-    "lodging": "Hotel",
-    "restaurant": "Restaurant"
-}
-
-const DetailsModal = ({ onModalClose, marker, selectedTruck, typeOfPOI }) => {
+const DetailsModal = ({ onModalClose, marker, typeOfPOI }) => {
     const { distance, duration } = marker;
 
     return (
         <div className="modalContainer">
             <div
-                className="startModalButton"
+                className="closeModalButton"
                 onClick={() => onModalClose()}>
                 &times;
             </div>
-            <p className="modalTitle">{typeObj[typeOfPOI]} Details</p>
+            <p>{typeOfPOIObj[typeOfPOI]} Details</p>
             <hr/>
-            {/* <p>Truck plate: <span>{selectedTruck}</span></p> */}
             <p>Distance: <span>{distance}</span></p>
             <p>Trip duration: <span>{duration}</span></p>
         </div>
