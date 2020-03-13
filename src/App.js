@@ -17,6 +17,7 @@ class App extends Component {
             lat: "",
             lng: "",
             places: [],
+            seenPlaces: {},
             marker: {},
             isModalVisible: false,
         };
@@ -30,7 +31,7 @@ class App extends Component {
     }
     
     handleOnSubmit = async (selectedTruck, typeOfPOI, radius) => {
-        const { trips } = this.state;
+        const { trips, seenPlaces } = this.state;
         const currentTrip = trips.find(trip => trip[0] === selectedTruck);
 
         // get path of selected truck (trip minus current location)
@@ -38,22 +39,50 @@ class App extends Component {
         
         // get most recent coordinates of selected truck
         const { lat, lng } = currentTrip[1][0];
-        
-        // get nearby points of interest
-        // const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
-        const rawPlacesArr = mockPlacesResponse.results;
-        const placesArr = rawPlacesArr.map(({ geometry }) => geometry.location);
 
-        // get distances mapped to each respective place
-        // const distancesArr = await getDistances({ lat, lng }, placesArr);
-        const distancesArr = mockDistanceResponse.rows[0].elements;
+        // check if the requested POIs are already stored in state
+        let places;
+        const seenPlacesString = `${lat}${lng}${typeOfPOI}${radius}`;
+        const seenPlacesAtCurPos = seenPlaces[seenPlacesString];
+        if (seenPlacesAtCurPos) {
+            places = seenPlacesAtCurPos;
+
+        } else {
+            // get nearby points of interest from the Google Places API
+            // const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
+            const rawPlacesArr = mockPlacesResponse.results;
+            const placesArr = rawPlacesArr.map(({ geometry }) => geometry.location);
+    
+            // get nearby points of interest respective distances from the Google Distance Matrix API
+            // const distancesArr = await getDistances({ lat, lng }, placesArr);
+            const distancesArr = mockDistanceResponse.rows[0].elements;
+            
+            // get distances mapped to each respective place
+            places = placesArr.map((place, idx) => (
+                { ...place, distance: distancesArr[idx].distance.text, duration: distancesArr[idx].duration.text }
+            ));
+        }
         
-        // map distancesArr to placesArr
-        const places = placesArr.map((place, idx) => ({ ...place, distance: distancesArr[idx].distance.text, duration: distancesArr[idx].duration.text }))
-        
-        this.setState({ selectedTruck, typeOfPOI, path, lat, lng, places, isModalVisible: false, marker: {} });
+        // update state
+        this.setState(prevState => {
+            const seenPlaces = seenPlacesAtCurPos
+                ? { ...prevState.seenPlaces }
+                : { ...prevState.seenPlaces, [seenPlacesString]: places };
+            return {
+                selectedTruck,
+                typeOfPOI,
+                path,
+                lat,
+                lng,
+                places,
+                seenPlaces,
+                isModalVisible: false,
+                marker: {},
+            }
+        });
     }; 
 
+    // handle POI marker select
     handleOnMarkerSelect = marker => {
         this.setState({ marker, isModalVisible: true });
     };
