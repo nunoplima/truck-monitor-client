@@ -5,9 +5,11 @@ import { Map, GoogleApiWrapper } from "google-maps-react";
 import MarkerContainer from "../MarkerCointainer/MarkerContainer";
 import dotenv from "dotenv";
 import { imageUrlByTypeOfPOI } from "../../constants/constants";
+import spinner from "../../assets/images/spinner.svg";
 import truckImage from "../../assets/images/icn-current-location.png";
 import pathImage from "../../assets/images/icn-path.png";
 import firstLocationImage from "../../assets/images/icn-first-location.png";
+import "./GoogleMapContainer.css";
 
 dotenv.config();
 
@@ -56,11 +58,6 @@ class GoogleMapContainer extends Component {
 
     renderPOI = () => {
         const { places, typeOfPOI, onMarkerSelect, marker } = this.props;
-        // get correct icon given the type of POI
-        // let icnImage;
-        // if (typeOfPOI === "gas_station") icnImage = gasStationImage;
-        // else if (typeOfPOI === "lodging") icnImage = hotelImage;
-        // else icnImage = restaurantImage;
 
         return places.map(({ lat, lng, distance, duration }, idx) => {
             // check if this marker is selected
@@ -86,7 +83,7 @@ class GoogleMapContainer extends Component {
     };
 
     render() {
-        const { trips, selectedTruck, path, lat, lng, places, onSubmit } = this.props;
+        const { trips, selectedTruck, path, lat, lng, places, onSubmit, isFetching } = this.props;
 
         return (
             <>
@@ -107,18 +104,20 @@ class GoogleMapContainer extends Component {
                     backgroundColor={"#ddd"}
                     scaleControl>
 
-                    {/* <Marker
-                        position={{lat: 38.736413, lng: -9.206345}} 
-                        icon={{url: "../assets/images/icn-current-location.png",
-                                anchor: new this.props.google.maps.Point(32,32),
-                                scaledSize: new this.props.google.maps.Size(64,64)}}
-                        /> */}
-                    
                     {selectedTruck.length && this.renderTruckLastPosition()}
                     
                     {path.length && this.renderPath()}
                     
                     {places.length && this.renderPOI()}
+
+                    {isFetching ? (
+                        <>
+                            <div className="fetchSpinnerCointainer">
+                                <img src={spinner} alt="Fetching spinner"></img>
+                            </div>
+                        </>
+                    ) : null}
+
                 </Map>
             </>
         );

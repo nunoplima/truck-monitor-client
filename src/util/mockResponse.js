@@ -794,7 +794,7 @@ const mockPlacesResponse = {
     status: "OK"
 };
 
-const mockDistanceResponse = {
+const mockDistancesResponse = {
     destination_addresses: [
         "Alto De Cabreira Estrada Da Circunvalação, Nº De Registo:271, 2610-041 Amadora, Portugal",
         "Rua Da, R. Q.ta do Paizinho No. 11, 2790-236 Carnaxide, Portugal",
@@ -1047,4 +1047,4 @@ const mockDistanceResponse = {
     status: "OK"
 };
 
-module.exports = { mockPlacesResponse, mockDistanceResponse };
+module.exports = { mockPlacesResponse, mockDistancesResponse };
