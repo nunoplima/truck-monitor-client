@@ -1,0 +1,12 @@
+.fetchSpinnerCointainer {
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    flex-direction: column;
+    animation: fade-in .4s ease-in;
+}

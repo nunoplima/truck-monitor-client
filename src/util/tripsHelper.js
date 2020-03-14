@@ -1,10 +1,17 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 const getTrips = async () => {
     const options = {
         headers: {
             "Content-type": "application/json"
         }
     };
-    const rawResponse = await fetch(`http://localhost:4000/all`, options);
+    const url =
+        process.env.NODE_ENV === "development"
+            ? "http://localhost:4000"
+            : "https://truck-monitor-server.herokuapp.com";
+    const rawResponse = await fetch(`${url}/all`, options);
     const response = await rawResponse.json();
     return response;
 };
