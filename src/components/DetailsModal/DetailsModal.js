@@ -37,20 +37,6 @@ const DetailsModal = ({ onModalClose, marker, selectedTruck, typeOfPOI }) => {
             </div>
         </div>
     );
-
-    // return (
-    //     <div className="modalContainer">
-    //         <div
-    //             className="closeModalButton"
-    //             onClick={() => onModalClose()}>
-    //             &times;
-    //         </div>
-    //         <p>{typeOfPOIObj[typeOfPOI]} Details</p>
-    //         <hr/>
-    //         <p>Distance: <span>{distance}</span></p>
-    //         <p>Trip duration: <span>{duration}</span></p>
-    //     </div>
-    // );
 };
 
 export default DetailsModal;
