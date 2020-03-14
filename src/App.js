@@ -27,39 +27,38 @@ class App extends Component {
 
     async componentDidMount() {
         const { trips } = await getTrips();
-        // get the most recent coordinates from the first truck in the array
-        // TODO: if there are no active trips
-        const { lat, lng } = trips[0][1][0]; 
+        // if there is at leat one ongoing trip, get the most recent coordinates from the first truck in the array 
+        const { lat, lng } = trips.length ? trips[0][1][0] : { lat: "", lng: "" }; 
         this.setState({ trips, lat, lng });
     }
     
     handleOnSubmit = (selectedTruck, typeOfPOI, radius) => {
-        const { trips, seenPlaces } = this.state;
-        const currentTrip = trips.find(trip => trip[0] === selectedTruck);
-
-        // get path of selected truck (trip minus current location)
-        const path = currentTrip[1].slice(1);
-        
-        // get most recent coordinates of selected truck
-        const { lat, lng } = currentTrip[1][0];
-
-        // check if the requested POIs are already stored in state
-        let places;
-        const seenPlacesString = `${lat}${lng}${typeOfPOI}${radius}`;
-        const seenPlacesAtCurPos = seenPlaces[seenPlacesString];
- 
         this.setState({ isFetching: true }, async () => {
+            const { trips, seenPlaces } = this.state;
+            const currentTrip = trips.find(trip => trip[0] === selectedTruck);
+    
+            // get path of selected truck (trip minus current location)
+            const path = currentTrip[1].slice(1);
+            
+            // get most recent coordinates of selected truck
+            const { lat, lng } = currentTrip[1][0];
+    
+            // check if the requested POIs are already stored in state
+            let places;
+            const seenPlacesKey = `${lat}${lng}${typeOfPOI}${radius}`;
+            const seenPlacesAtCurPos = seenPlaces[seenPlacesKey];
+
             if (seenPlacesAtCurPos) {
                 places = seenPlacesAtCurPos;
             } else {
                 // get nearby points of interest from the Google Places API
-                // const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
-                const rawPlacesArr = mockPlacesResponse.results;
+                const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
+                // const rawPlacesArr = mockPlacesResponse.results;
                 const placesArr = rawPlacesArr.map(({ geometry }) => geometry.location);
         
                 // get nearby points of interest respective distances from the Google Distance Matrix API
-                // const distancesArr = await getDistances({ lat, lng }, placesArr);
-                const distancesArr = mockDistancesResponse.rows[0].elements;
+                const distancesArr = await getDistances({ lat, lng }, placesArr);
+                // const distancesArr = mockDistancesResponse.rows[0].elements;
                 
                 // get distances mapped to each respective place
                 places = placesArr.map((place, idx) => (
@@ -71,7 +70,7 @@ class App extends Component {
             this.setState(prevState => {
                 const seenPlaces = seenPlacesAtCurPos
                     ? { ...prevState.seenPlaces }
-                    : { ...prevState.seenPlaces, [seenPlacesString]: places };
+                    : { ...prevState.seenPlaces, [seenPlacesKey]: places };
                 return {
                     selectedTruck,
                     typeOfPOI,
@@ -101,6 +100,7 @@ class App extends Component {
 
         return (
             <div className="App">
+
                 {trips.length ? (
                     <GoogleMapContainer
                         trips={trips}
@@ -127,6 +127,7 @@ class App extends Component {
                         typeOfPOI={typeOfPOI}
                     />
                 )}
+                
             </div>
         );
     }

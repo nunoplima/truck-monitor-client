@@ -7,7 +7,6 @@ const Loading = () => (
         <h1>Loading...</h1>
         <img id="spinner" src={spinner} alt="Loading spinner"></img>
     </div>
-    
 );
 
 export default Loading;
