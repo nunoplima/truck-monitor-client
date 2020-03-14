@@ -11,8 +11,8 @@ const DetailsModal = ({ onModalClose, marker, selectedTruck, typeOfPOI }) => {
     const { distance, duration } = marker;
 
     return (
-        <div className="modal">
-            <div className="modalContainer">
+        <div className="modalContainer">
+            <div className="modalInnerContainer">
                 <div className="closeModalButton" onClick={() => onModalClose()}>
                     &times;
                 </div>
@@ -23,11 +23,11 @@ const DetailsModal = ({ onModalClose, marker, selectedTruck, typeOfPOI }) => {
                 </div>
 
                 <div className="modalMiddleSection">
-                    <p>{distance}</p>
+                    <div className="modalMetrics">{distance}</div>
                     
                     <p className="modalArrow">&#8674;</p>
                         
-                    <p>{duration}</p>
+                    <div className="modalMetrics">{duration}</div>
                 </div>
 
                 <div className="modalIcnSection">
