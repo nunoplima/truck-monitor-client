@@ -14,8 +14,7 @@
     "react-scripts": "3.4.0"
   },
   "scripts": {
-    "start": "export NODE_ENV=production; react-scripts start",
-    "dev": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
