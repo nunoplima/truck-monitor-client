@@ -11,9 +11,14 @@ const getTrips = async () => {
         process.env.NODE_ENV === "development"
             ? "http://localhost:4000"
             : "https://truck-monitor-server.herokuapp.com";
-    const rawResponse = await fetch(`${url}/trips`, options);
-    const response = await rawResponse.json();
-    return response;
+    try {
+        const rawResponse = await fetch(`${url}/trips`, options);
+        const response = await rawResponse.json();
+        return response;
+    } catch(e) {
+        console.log(e);
+    }
+    
 };
 
 export { getTrips };

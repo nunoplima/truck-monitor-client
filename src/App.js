@@ -3,7 +3,6 @@ import GoogleMapContainer from "./components/GoogleMapContainer/GoogleMapContain
 import DetailsModal from "./components/DetailsModal/DetailsModal";
 import { getTrips } from "./util/tripsHelper";
 import { getPlaces, getDistances } from "./util/placesHelper";
-import { mockPlacesResponse, mockDistancesResponse } from "./util/mockResponse";
 import Loading from "./components/Loading/Loading";
 
 
@@ -35,12 +34,10 @@ class App extends Component {
     getPlacesAndDistances = async ({ lat, lng }, typeOfPOI, radius) => {
         // get nearby points of interest from the Google Places API
         const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
-        // const rawPlacesArr = mockPlacesResponse.results;
         const placesArr = rawPlacesArr.map(({ geometry }) => geometry.location);
 
         // get nearby points of interest respective distances from the Google Distance Matrix API
         const distancesArr = await getDistances({ lat, lng }, placesArr);
-        // const distancesArr = mockDistancesResponse.rows[0].elements;
         
         // return distances mapped to each respective place
         return placesArr.map((place, idx) => (

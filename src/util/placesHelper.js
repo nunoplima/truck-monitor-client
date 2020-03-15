@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const getPlaces = async (coord, type, radius) => {
-    console.log("Fetching places");
     try {
         const cors = "https://cors-anywhere.herokuapp.com/"  
         const url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
@@ -20,7 +19,6 @@ const getPlaces = async (coord, type, radius) => {
 };
 
 const getDistances = async (fromCoord, toCoordArr) => {
-    console.log("Fetching distances");
     try {
         const cors = "https://cors-anywhere.herokuapp.com/"  
         const url = "https://maps.googleapis.com/maps/api/distancematrix/json?";
