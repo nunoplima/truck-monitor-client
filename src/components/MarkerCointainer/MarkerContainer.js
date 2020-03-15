@@ -18,21 +18,4 @@ const MarkerContainer = React.memo(
     }
 );
 
-// class MarkerContainer extends Component {
-//     shouldComponentUpdate(nextProps) {
-//         return JSON.stringify(nextProps.position) !== JSON.stringify(this.props.position);
-//     }
-
-//     handleOnMarkerSelect = (props, marker, e) => {
-//         // console.log(props, marker, e)
-//         props.onMarkerSelect(marker)
-//     };
-
-//     render() {
-//         return (
-//             <Marker {...this.props} onClick={this.handleOnMarkerSelect} />
-//         )
-//     }
-// }
-
 export default MarkerContainer;
