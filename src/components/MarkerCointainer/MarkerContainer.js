@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Marker } from "google-maps-react";
 import "./MarkerContainer.css";
 
@@ -17,5 +18,14 @@ const MarkerContainer = React.memo(
         return isSameLocation && isSameTypeOfPOI;
     }
 );
+
+MarkerContainer.propTypes = {
+    clickable: PropTypes.bool,
+    position: PropTypes.object.isRequired,
+    icon: PropTypes.object.isRequired,
+    distance: PropTypes.string,
+    duration: PropTypes.string,
+    onMarkerSelect: PropTypes.func,
+};
 
 export default MarkerContainer;

@@ -4,6 +4,7 @@ import Filter from "../Filter/Filter";
 import { Map, GoogleApiWrapper } from "google-maps-react";
 import MarkerContainer from "../MarkerCointainer/MarkerContainer";
 import dotenv from "dotenv";
+import PropTypes from "prop-types";
 import { imageUrlByTypeOfPOI } from "../../constants/constants";
 import spinner from "../../assets/images/spinner.svg";
 import truckImage from "../../assets/images/icn-current-location.png";
@@ -98,7 +99,6 @@ class GoogleMapContainer extends Component {
                     zoom={14}
                     minZoom={13}
                     zoomControl
-                    style={{ width: "100vw", height: "100vh" }}
                     initialCenter={{ lat, lng }}
                     center={{ lat, lng }}
                     backgroundColor={"#ddd"}
@@ -123,6 +123,20 @@ class GoogleMapContainer extends Component {
         );
     }
 }
+
+GoogleMapContainer.propTypes = {
+    trips: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.array), PropTypes.array]).isRequired,
+    selectedTruck: PropTypes.string.isRequired,
+    typeOfPOI: PropTypes.string.isRequired,
+    path: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.array]).isRequired,
+    lat: PropTypes.string.isRequired,
+    lng: PropTypes.string.isRequired,
+    places: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.array]).isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onMarkerSelect: PropTypes.func.isRequired,
+    marker: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+};
 
 export default GoogleApiWrapper({
     apiKey: process.env.REACT_APP_GOOGLE_KEY,
