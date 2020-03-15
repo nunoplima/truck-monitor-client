@@ -5,12 +5,12 @@ import "./Filter.css";
 const Filter = ({ trips, onSubmit }) => {
     const [truckPlate, setTruckPlate] = useState("");
     const [type, setType] = useState("");
-    const [radius, setRadius] = useState("");
+    const [radius, setRadius] = useState("2000");
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        if (!truckPlate.length || !type.length || !radius.length) {
-            alert("All fields are required. \nPlease fill them all before submitting.");
+        if (!truckPlate.length || !type.length) {
+            alert(`\nPlease select license plate and POI type.`);
         } else {
             onSubmit(truckPlate, type, radius);
         }
