@@ -1,4 +1,4 @@
-## M-A-N Truck Monitor
+# M-A-N Truck Monitor
 
 ServiceCare On Road Full-Stack Code Exercise implementation proposal
 
