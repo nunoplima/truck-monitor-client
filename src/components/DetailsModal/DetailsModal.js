@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
+import PropTypes from "prop-types";
 import truckImage from "../../assets/images/icn-current-location.png";
 import { imageUrlByTypeOfPOI } from "../../constants/constants";
 import { typeOfPOIObj } from "../../constants/constants";
@@ -37,6 +38,13 @@ const DetailsModal = ({ onModalClose, marker, selectedTruck, typeOfPOI }) => {
             </div>
         </div>
     );
+};
+
+DetailsModal.propTypes = {
+    onModalClose: PropTypes.func.isRequired,
+    marker: PropTypes.object.isRequired,
+    selectedTruck: PropTypes.string.isRequired,
+    typeOfPOI: PropTypes.string.isRequired,
 };
 
 export default DetailsModal;

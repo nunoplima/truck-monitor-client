@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import "./Filter.css";
 
 const Filter = ({ trips, onSubmit }) => {
@@ -42,6 +43,11 @@ const Filter = ({ trips, onSubmit }) => {
             </form>
         </div>
     );
+};
+
+Filter.propTypes = {
+    trips: PropTypes.arrayOf(PropTypes.array).isRequired,
+    onSubmit: PropTypes.func.isRequired,
 };
 
 export default Filter;

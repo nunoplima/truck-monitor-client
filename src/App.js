@@ -32,6 +32,22 @@ class App extends Component {
         this.setState({ trips, lat, lng });
     }
     
+    getPlacesAndDistances = async ({ lat, lng }, typeOfPOI, radius) => {
+        // get nearby points of interest from the Google Places API
+        const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
+        // const rawPlacesArr = mockPlacesResponse.results;
+        const placesArr = rawPlacesArr.map(({ geometry }) => geometry.location);
+
+        // get nearby points of interest respective distances from the Google Distance Matrix API
+        const distancesArr = await getDistances({ lat, lng }, placesArr);
+        // const distancesArr = mockDistancesResponse.rows[0].elements;
+        
+        // return distances mapped to each respective place
+        return placesArr.map((place, idx) => (
+            { ...place, distance: distancesArr[idx].distance.text, duration: distancesArr[idx].duration.text }
+        ));
+    };
+
     handleOnSubmit = (selectedTruck, typeOfPOI, radius) => {
         this.setState({ isFetching: true }, async () => {
             const { trips, seenPlaces } = this.state;
@@ -48,24 +64,9 @@ class App extends Component {
             const seenPlacesKey = `${lat}${lng}${typeOfPOI}${radius}`;
             const seenPlacesAtCurPos = seenPlaces[seenPlacesKey];
 
-            if (seenPlacesAtCurPos) {
-                places = seenPlacesAtCurPos;
-            } else {
-                // get nearby points of interest from the Google Places API
-                const { results: rawPlacesArr } = await getPlaces({ lat, lng }, typeOfPOI, radius);
-                // const rawPlacesArr = mockPlacesResponse.results;
-                const placesArr = rawPlacesArr.map(({ geometry }) => geometry.location);
-        
-                // get nearby points of interest respective distances from the Google Distance Matrix API
-                const distancesArr = await getDistances({ lat, lng }, placesArr);
-                // const distancesArr = mockDistancesResponse.rows[0].elements;
-                
-                // get distances mapped to each respective place
-                places = placesArr.map((place, idx) => (
-                    { ...place, distance: distancesArr[idx].distance.text, duration: distancesArr[idx].duration.text }
-                ));
-            }
-            
+            if (seenPlacesAtCurPos) places = seenPlacesAtCurPos;
+            else places = await this.getPlacesAndDistances({ lat, lng }, typeOfPOI, radius);
+       
             // update state
             this.setState(prevState => {
                 const seenPlaces = seenPlacesAtCurPos
