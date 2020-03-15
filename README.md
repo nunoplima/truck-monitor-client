@@ -2,13 +2,12 @@
 
 ServiceCare On Road Full-Stack Code Exercise implementation proposal
 
-<hr />
 
 This project is deployed here: [https://m-a-n-truck-monitor.herokuapp.com](https://m-a-n-truck-monitor.herokuapp.com)<br />
 Back-end is deployed here: [https://truck-monitor-server.herokuapp.com](https://truck-monitor-server.herokuapp.com)<br />
 Back-end repo here: [https://github.com/nunoplima/truck-monitor-server](https://github.com/nunoplima/truck-monitor-server)<br />
 
-To run the project locally:
+## To run the project locally:
 
 ### `yarn install && yarn start`
 
